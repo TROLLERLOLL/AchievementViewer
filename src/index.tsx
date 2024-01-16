@@ -11,13 +11,14 @@ import {
 import { VFC } from "react";
 import { FaShip } from "react-icons/fa";
 
+var currentid: number = 0;
 
 const Content: VFC<{}> = ({}) => {
   
   return (
     <PanelSection>
       <PanelSectionRow>
-        
+        {currentid}
       </PanelSectionRow>
     </PanelSection>
   );
@@ -25,7 +26,10 @@ const Content: VFC<{}> = ({}) => {
 
 export default definePlugin((serverApi: ServerAPI) => {
   var listener = SteamClient.GameSessions.RegisterForAppLifetimeNotifications((appstate) => {
-    serverApi.toaster.toast({title: appstate.unAppID.toString(), body: "HI"});
+    if (appstate.bRunning)
+      currentid = appstate.unAppID;
+    else 
+      currentid = -1;
   })
 
   return {
