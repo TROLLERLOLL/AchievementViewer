@@ -90,8 +90,9 @@
               window.SP_REACT.createElement("p", null, getState()))));
   };
   function getState() {
-      if (deckyFrontendLib.Router.MainRunningApp) {
-          return state.vecHighlight[0];
+      if (deckyFrontendLib.Router.MainRunningApp && state) {
+          if (state.vecHighlight != null)
+              return state.vecHighlight[0];
       }
       return "NULL";
   }

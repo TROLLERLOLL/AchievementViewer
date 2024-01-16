@@ -25,8 +25,9 @@ const Content: VFC<{}> = ({}) => {
   );
 };
 function getState() {
-  if (Router.MainRunningApp) {    
-    return state.vecHighlight[0];
+  if (Router.MainRunningApp && state) {
+    if (state.vecHighlight != null)    
+      return state.vecHighlight[0];
   }
   return "NULL";
 }
