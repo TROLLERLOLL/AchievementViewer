@@ -84,7 +84,9 @@
   var currentid = 0;
   const Content = ({}) => {
       return (window.SP_REACT.createElement(deckyFrontendLib.PanelSection, null,
-          window.SP_REACT.createElement(deckyFrontendLib.PanelSectionRow, null, currentid)));
+          window.SP_REACT.createElement(deckyFrontendLib.PanelSectionRow, null,
+              "hhh ",
+              currentid)));
   };
   var index = deckyFrontendLib.definePlugin((serverApi) => {
       var listener = SteamClient.GameSessions.RegisterForAppLifetimeNotifications((appstate) => {
