@@ -5,6 +5,7 @@ import {
   ServerAPI,
   staticClasses,
   Toggle,
+  ToggleField,
 } from "decky-frontend-lib";
 import { VFC } from "react";
 import { FaShip } from "react-icons/fa";
@@ -13,7 +14,7 @@ const Content: VFC<{ serverAPI: ServerAPI }> = ({}) => {
   return (
     <PanelSection title="Panel Section">
       <PanelSectionRow>
-        <Toggle value={true}>Enabled</Toggle>
+        <ToggleField checked={true}>Enabled</ToggleField>
       </PanelSectionRow>
     </PanelSection>
   );
