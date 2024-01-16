@@ -11,7 +11,7 @@ import {
 } from "decky-frontend-lib";
 import { VFC } from "react";
 import { FaShip } from "react-icons/fa";
-var state: any = {};
+var state: AppAchievements;
 const Content: VFC<{}> = ({}) => {
   
   return (
@@ -26,7 +26,7 @@ const Content: VFC<{}> = ({}) => {
 };
 function getState() {
   if (Router.MainRunningApp) {    
-    return JSON.stringify(state);
+    return state.vecHighlight[0];
   }
   return "NULL";
 }
