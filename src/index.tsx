@@ -11,11 +11,7 @@ import { FaShip } from "react-icons/fa";
 
 const Content: VFC<{ serverAPI: ServerAPI }> = ({}) => {
   return (
-    <PanelSection title="Panel Section">
-      <PanelSectionRow>
-        <ToggleField label="Enabled" checked={true}></ToggleField>
-      </PanelSectionRow>
-    </PanelSection>
+    <ToggleField label={"Enabled"} checked={true}></ToggleField>
   );
 };
 

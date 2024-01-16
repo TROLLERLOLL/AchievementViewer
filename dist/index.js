@@ -82,9 +82,7 @@
   }
 
   const Content = ({}) => {
-      return (window.SP_REACT.createElement(deckyFrontendLib.PanelSection, { title: "Panel Section" },
-          window.SP_REACT.createElement(deckyFrontendLib.PanelSectionRow, null,
-              window.SP_REACT.createElement(deckyFrontendLib.ToggleField, { label: "Enabled", checked: true }))));
+      return (window.SP_REACT.createElement(deckyFrontendLib.ToggleField, { label: "Enabled", checked: true }));
   };
   var index = deckyFrontendLib.definePlugin((serverApi) => {
       return {
