@@ -1,16 +1,16 @@
 import {
   definePlugin,
+  Navigation,
   PanelSection,
   PanelSectionRow,
-  QuickAccessTab,
   Router,
   ServerAPI,
+  SideMenu,
   staticClasses,
-  Tabs,
-  ToggleField,
 } from "decky-frontend-lib";
 import { VFC } from "react";
 import { FaShip } from "react-icons/fa";
+import PauseMenu from "./PauseMenu";
 var state: AppAchievements;
 const Content: VFC<{}> = ({}) => {
   
@@ -19,19 +19,27 @@ const Content: VFC<{}> = ({}) => {
       <PanelSectionRow>
        <strong>{(Router.MainRunningApp ? Router.MainRunningApp?.display_name : "NONE")}</strong>
        <p>{(Router.MainRunningApp ? Router.MainRunningApp?.appid : "0")}</p>
-       <p>{getState()}</p>
+       <p></p>
       </PanelSectionRow>
     </PanelSection>
   );
 };
 function getState() {
-  if (Router.MainRunningApp && state) {
-    if (state.vecHighlight != null)    
-      return state.vecHighlight[0];
+  if (Router.MainRunningApp && state != null) {
+    if (state.vecHighlight != null) {
+      var data = "";
+      for (var i = 0; i < state.vecHighlight.length; i++)
+        data += state.vecHighlight[i] + "\n";
+    }
+      
   }
   return "NULL";
 }
 export default definePlugin((serverApi: ServerAPI) => {
+  var runner;
+  SteamClient.GameSessions.RegisterForAppLifetimeNotifications(() => {
+    runner = PauseMenu();
+  })
   var statetracker = SteamClient.Apps.RegisterForAppDetails((Router.MainRunningApp ? Router.MainRunningApp.appid : ""), (details) => {
     state = details.achievements;
   })

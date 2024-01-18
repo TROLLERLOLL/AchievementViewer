@@ -15,6 +15,11 @@ declare namespace SteamClient {
 				details: AppDetails
 			) => any
 		): RegisteredEvent
+		GetMyAchievementsForApp(appid: string,
+			callback: (
+				details: AppAchievements
+			) => any
+		): RegisteredEvent
 	}
 	const InstallFolder: {
 		GetInstallFolders(): Promise<InstallFolder[]>
