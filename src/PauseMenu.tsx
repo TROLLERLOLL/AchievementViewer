@@ -13,14 +13,14 @@ export default () => {
 
     const menuWrapper = (props: any) => {
         const ret = orig(props)
-        if (!ret?.props?.children?.props?.children?.[1]?.type) {
+        if (!ret?.props?.children?.props?.children?.[0]?.type) {
             console.log('Menu Patch', 'The main menu element could not be found at the expected location. Valve may have changed it.')
             return ret
         }
         if (patchedInnerMenu) {
-            ret.props.children.props.children[1].type = patchedInnerMenu
+            ret.props.children.props.children[0].type = patchedInnerMenu
         } else {
-            afterPatch(ret.props.children.props.children[1], 'type', (_: any, ret: any) => {
+            afterPatch(ret.props.children.props.children[0], 'type', (_: any, ret: any) => {
                 if (!ret?.props?.children || !Array.isArray(ret?.props?.children)) {
                     console.log('Menu Patch', 'Could not find menu items to patch.');
                     return ret
@@ -35,7 +35,7 @@ export default () => {
 
                 return ret
             })
-            patchedInnerMenu = ret.props.children.props.children[1].type
+            patchedInnerMenu = ret.props.children.props.children[0].type
         }
         return ret;
     }

@@ -1,4 +1,5 @@
 import {
+  afterPatch,
   definePlugin,
   Navigation,
   PanelSection,
@@ -7,8 +8,9 @@ import {
   ServerAPI,
   SideMenu,
   staticClasses,
+  wrapReactType,
 } from "decky-frontend-lib";
-import { VFC } from "react";
+import { ReactElement, VFC } from "react";
 import { FaShip } from "react-icons/fa";
 import PauseMenu from "./PauseMenu";
 var state: AppAchievements;
@@ -36,12 +38,49 @@ function getState() {
   return "NULL";
 }
 export default definePlugin((serverApi: ServerAPI) => {
-  var runner;
-  SteamClient.GameSessions.RegisterForAppLifetimeNotifications(() => {
-    runner = PauseMenu();
-  })
-  var statetracker = SteamClient.Apps.RegisterForAppDetails((Router.MainRunningApp ? Router.MainRunningApp.appid : ""), (details) => {
-    state = details.achievements;
+  var p = serverApi.routerHook.addPatch("/steamweb", (props: { path: string; children: ReactElement }) => {
+    afterPatch(
+      props.children.props,
+      'renderFunc',
+      (_: Record<string, unknown>[], ret1: ReactElement) => {
+          
+          
+            wrapReactType(ret1.props.children);
+            afterPatch(
+                ret1.props.children.type,
+                'type',
+                (_1: Record<string, unknown>[], ret2: ReactElement) => {
+                    const componentToSplice =
+                        ret2.props.children?.[1]?.props.children.props
+                            .children;
+                    // This always seems to be -1
+                    const hltbComponentIndex =
+                        componentToSplice?.findIndex(
+                            (child: ReactElement) => {
+                                return (
+                                    child?.props?.id === 'hltb-for-deck'
+                                );
+                            }
+                        );
+
+                    // We want to splice into the component before this point
+
+                    const component = (
+                        <h1>aaaa</h1>
+                    );
+
+                    componentToSplice?.splice(
+                      1,
+                      0,
+                      component
+                  );
+                    return ret2;
+                }
+            );
+            return ret1;
+        }
+    );
+    return props;
   })
   return {
     title: <div className={staticClasses.Title}>Achievement Viewer</div>,
@@ -49,7 +88,7 @@ export default definePlugin((serverApi: ServerAPI) => {
     icon: <FaShip />,
     alwaysRender: true,
     onDismount() {
-      statetracker.unregister();
+      serverApi.routerHook.removePatch("/steamweb", p);
     },
   };
 });
