@@ -88,13 +88,15 @@
   };
 
   var index = deckyFrontendLib.definePlugin((serverAPI) => {
-      serverAPI.executeInTab("Steam_Big_Picture_Mode", false, `
+      setInterval(function () {
+          serverAPI.executeInTab("Steam_Big_Picture_Mode", false, `
         function run() {
             alert("HI");
         }
 
         setTimeout(run, 1000);
-    `);
+        `);
+      }, 2000);
       return {
           title: window.SP_REACT.createElement("div", { className: deckyFrontendLib.staticClasses.Title }, "Decky Addon"),
           icon: window.SP_REACT.createElement(FaGamepad, null),
